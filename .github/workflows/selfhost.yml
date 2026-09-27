@@ -1,0 +1,66 @@
+name: Self-hosted Docker
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'selfhost/**'
+      - 'integrations/crypto_data.py'
+      - 'agents/crypto_tools.py'
+      - 'core/**'
+      - 'web/**'
+      - 'Dockerfile'
+      - 'compose.yaml'
+      - '.dockerignore'
+      - 'pyproject.toml'
+      - 'uv.lock'
+      - 'scripts/*selfhost*'
+      - '.github/workflows/selfhost.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'selfhost/**'
+      - 'integrations/crypto_data.py'
+      - 'agents/crypto_tools.py'
+      - 'core/**'
+      - 'web/**'
+      - 'Dockerfile'
+      - 'compose.yaml'
+      - '.dockerignore'
+      - 'pyproject.toml'
+      - 'uv.lock'
+      - 'scripts/*selfhost*'
+      - '.github/workflows/selfhost.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: selfhost-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build and start
+        run: docker compose up --build -d --wait --wait-timeout 180
+      - name: Verify HTTP and persistence
+        run: |
+          docker compose exec -T wyckoff python scripts/smoke_selfhost.py
+          docker compose exec -T wyckoff python -c 'from selfhost.store import ReportStore; from pathlib import Path; ReportStore(Path("/data/reports.sqlite3")).save({"smoke": True})'
+          docker compose restart
+          docker compose up -d --wait --wait-timeout 120
+          docker compose exec -T wyckoff python scripts/smoke_selfhost.py
+          docker compose exec -T wyckoff python -c 'from selfhost.store import ReportStore; from pathlib import Path; assert ReportStore(Path("/data/reports.sqlite3")).list()[0]["report"]["smoke"]'
+      - name: Capture container logs
+        if: always()
+        run: docker compose logs --no-color > selfhost-container.log
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: selfhost-container-log
+          path: selfhost-container.log
+          retention-days: 7
+      - name: Stop containers
+        if: always()
+        run: docker compose down -v

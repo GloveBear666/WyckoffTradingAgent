@@ -1,3 +1,11 @@
+# 此 fork 的自托管 Crypto 入口
+
+`Dockerfile` 使用独立 `vite.selfhost.config.ts` 构建 React 聊天工作台，FastAPI `selfhost/server.py` 在同一端口提供 UI 与 Bearer-authenticated API。`selfhost/agent.py` 执行只读模型工具循环；`agents/crypto_tools.py` 连接 `integrations/crypto_data.py` 与既有威科夫结构引擎。CCXT 只访问公开行情；SQLite 与自动口令在 Docker 命名卷 `/data` 中持久化。
+
+不经过下面的云股票登录、会员、收费行情或 Cloudflare runtime。自托管是个人单用户服务，不沿用股票投资组合写入 API。部署参数、支持范围与时间/成交量口径见 [SELF_HOSTED_CRYPTO.md](SELF_HOSTED_CRYPTO.md)，审阅记录见 [CRYPTO_CODE_REVIEW.md](CRYPTO_CODE_REVIEW.md)。
+
+---
+
 # 系统架构
 
 [← 返回 README](../README.md)

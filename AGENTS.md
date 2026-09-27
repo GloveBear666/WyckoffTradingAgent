@@ -5,13 +5,18 @@
 
 ## Project Overview
 
-Multi-market quantitative analysis system based on Wyckoff method, covering A-shares, Hong Kong stocks, US stocks, and ETFs. Python backend (CLI + MCP) + React/TypeScript web frontend.
+Multi-market quantitative analysis system based on Wyckoff method, covering A-shares, Hong Kong stocks, US stocks, and ETFs. Python backend (CLI + MCP) + React/TypeScript web frontend. This fork also has a self-hosted crypto chat runtime: FastAPI + CCXT public spot/linear-swap data + SQLite, built with Docker Compose. See docs/SELF_HOSTED_CRYPTO.md; the upstream cloud and desktop stock runtimes remain separate.
 
 Streamlit is fully retired from `main`: do not add, restore, or maintain Streamlit runtime code here. The historical Streamlit MVP code is preserved on the `release/streamlit` branch, and its product architecture/screenshots are archived in [docs/STREAMLIT_MVP_ARCHITECTURE.md](docs/STREAMLIT_MVP_ARCHITECTURE.md).
 
 ## Quick Commands
 
 ```bash
+# Self-hosted crypto
+uv sync --extra dev --extra mcp --extra selfhost
+docker compose up --build -d --wait
+docker compose exec wyckoff python scripts/smoke_selfhost.py
+
 # Python
 .venv/bin/python -m pytest tests/ -x -q  # run tests
 .venv/bin/ruff check .                   # lint
@@ -147,7 +152,7 @@ the error direction favored acting. So:
 ## Architecture Constraints
 
 - **Web: no new pages** — New features go into the Agent (chat) interface, not as separate routes.
-- **No Streamlit in main** — Streamlit is no longer maintained on `main`; route product work through CF Pages, CLI, MCP, or GitHub Actions.
+- **No Streamlit in main** — Streamlit is no longer maintained on `main`; route product work through React (CF Pages or self-hosted chat), CLI, MCP, or GitHub Actions.
 - **Data isolation: Route A** — Signals are shared; portfolio and settings are per-user.
 - **Python ≥ 3.11**, **Node ≥ 20**, **pnpm** for web workspace.
 - The standalone `wiki_repo_new/` checkout is intentionally hidden and independently versioned; keep it ignored and do not merge it into `docs/`.

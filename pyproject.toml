@@ -35,6 +35,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+selfhost = ["ccxt==4.5.84", "fastapi==0.141.1", "uvicorn==0.44.0"]
 # The public server and external client use SDK v1 APIs; v2 needs an explicit migration.
 mcp = ["mcp>=1.28.0,<2.0", "starlette>=1.0.1", "jsonschema>=4.20"]
 wbt = ["wbt>=0.1.6"]
@@ -53,7 +54,7 @@ build-backend = "setuptools.build_meta"
 py-modules = ["mcp_server"]
 
 [tool.setuptools.packages.find]
-include = ["agents*", "cli*", "core*", "integrations*", "llmdoc*", "tools*", "utils*", "scripts*", "workflows*"]
+include = ["agents*", "cli*", "core*", "integrations*", "llmdoc*", "tools*", "utils*", "scripts*", "workflows*", "selfhost*"]
 
 [tool.setuptools.package-data]
 llmdoc = ["*.json", "*.md", "cases/*.md"]

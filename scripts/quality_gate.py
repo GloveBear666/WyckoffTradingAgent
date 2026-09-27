@@ -33,7 +33,19 @@ LOC_GROWTH_WARN_PCT = 5
 STALE_WHITELIST_WARN_COUNT = 10
 REPORT_DETAIL_LIMIT = 12
 
-PY_DIRS = ["agents", "app", "cli", "core", "integrations", "pages", "scripts", "tools", "utils", "workflows"]
+PY_DIRS = [
+    "agents",
+    "app",
+    "cli",
+    "core",
+    "integrations",
+    "pages",
+    "scripts",
+    "selfhost",
+    "tools",
+    "utils",
+    "workflows",
+]
 TS_DIRS = ["web/apps/web/src", "web/apps/api/src", "web/packages/shared/src"]
 
 
