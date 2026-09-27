@@ -434,3 +434,12 @@ flowchart LR
 ## 对外 MCP 契约
 
 工具发现与业务执行分离；可握手不代表所有工具免认证。写入默认拒绝，业务错误映射为 `isError`。详见 [PUBLIC_MCP.md](docs/PUBLIC_MCP.md)。
+
+
+## Self-hosted Crypto
+
+- **spot / swap**：现货 / 线性永续。永续使用 CCXT `BASE/QUOTE:SETTLE` 格式；不是股票代码或交割合约。
+- **closed candles**：UTC 已收盘 K 线，时间戳表示开盘时间；所有窗口按所选周期的 K 线根数计。
+- **funding / open interest**：每结算周期资金费率 / 未平仓量快照；缺失为 unavailable，不当作 0，不推断多空方向。
+- **observation_only**：复用原价格结构算法，尚无加密市场回测证据，不经过股票 OMS，不生成订单。
+- **WEB_TOKEN / LLM_BASE_URL / LLM_MODEL / LLM_API_KEY**：自托管访问口令和服务端模型配置，参见 [部署说明](docs/SELF_HOSTED_CRYPTO.md)。

@@ -1,3 +1,11 @@
+# Self-hosted Crypto edition
+
+This fork adds a Docker-first, single-user crypto research chat UI. Free public exchange data via open-source CCXT supports spot and linear perpetuals on OKX, Binance and Bybit. It does not require TickFlow, Supabase or Cloudflare. Run `bash scripts/deploy-selfhost.sh`, open http://localhost:8000, and retrieve the access token with `docker compose exec wyckoff cat /data/access-token`.
+
+[Deployment guide](SELF_HOSTED_CRYPTO.md) · [Migration review](CRYPTO_CODE_REVIEW.md). AI chat accepts an OpenAI-compatible endpoint or Ollama; rule-based structure analysis works without an LLM. Crypto strategy parameters have not been backtested. The upstream stock product documentation follows.
+
+---
+
 <div align="center">
 
 # Wyckoff Trading Agent

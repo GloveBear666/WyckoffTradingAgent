@@ -1,3 +1,21 @@
+# Wyckoff Crypto — 自托管加密货币 Agent
+
+本 fork 新增 **免费公开行情 + 现货/永续分析 + Docker Web UI**。使用开源 CCXT 接入 OKX、Binance、Bybit；默认 Docker 运行不需要 TickFlow、Tushare、Supabase 或 Cloudflare。
+
+```bash
+git clone https://github.com/GloveBear666/WyckoffTradingAgent.git
+cd WyckoffTradingAgent
+bash scripts/deploy-selfhost.sh
+```
+
+打开 http://localhost:8000，使用 `docker compose exec wyckoff cat /data/access-token` 获取登录口令。无需模型 Key 即可看 K 线、威科夫结构、均线/ATR、永续资金费率和 OI；AI 对话可配置 OpenAI-compatible API 或本地 Ollama。
+
+[部署与配置](docs/SELF_HOSTED_CRYPTO.md) · [代码审阅与迁移边界](docs/CRYPTO_CODE_REVIEW.md)
+
+下方为保留的上游股票产品说明，在线地址和股票安装命令指向上游；**部署本 fork 请使用上面的 Docker 命令**。加密结构参数尚未经过专门回测，输出用于研究。
+
+---
+
 <div align="center">
 
 # WyckoffAgent — Open-Source Wyckoff Trading Agent
